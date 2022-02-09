@@ -18,7 +18,11 @@ namespace TesteBackendEnContact.Controllers
         {
             _logger = logger;
         }
-
+        [HttpPut]
+        public async Task<ActionResult<ICompany>> Put(SaveCompanyRequest company, [FromServices] ICompanyRepository companyRepository)
+        {
+            return Ok(await companyRepository.SaveAsync(company.ToCompany()));
+        }
         [HttpPost]
         public async Task<ActionResult<ICompany>> Post(SaveCompanyRequest company, [FromServices] ICompanyRepository companyRepository)
         {
