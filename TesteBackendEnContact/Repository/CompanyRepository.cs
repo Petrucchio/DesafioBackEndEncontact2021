@@ -20,16 +20,19 @@ namespace TesteBackendEnContact.Repository
         {
             this.databaseConfig = databaseConfig;
         }
-
         public async Task<ICompany> SaveAsync(ICompany company)
         {
             using var connection = new SqliteConnection(databaseConfig.ConnectionString);
             var dao = new CompanyDao(company);
+            dao.Id = await connection.InsertAsync(dao);
 
-            if (dao.Id == 0)
-                dao.Id = await connection.InsertAsync(dao);
-            else
-                await connection.UpdateAsync(dao);
+            return dao.Export();
+        }
+        public async Task<ICompany> UpdateAsync(ICompany company)
+        {
+            using var connection = new SqliteConnection(databaseConfig.ConnectionString);
+            var dao = new CompanyDao(company);
+            await connection.UpdateAsync(dao);
 
             return dao.Export();
         }

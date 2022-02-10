@@ -18,6 +18,11 @@ namespace TesteBackendEnContact.Controllers
         {
             _logger = logger;
         }
+        [HttpPut]
+        public async Task<IContactBook> Put(ContactBook contactBook, [FromServices] IContactBookRepository contactBookRepository)
+        {
+            return await contactBookRepository.UpdateAsync(contactBook);
+        }
 
         [HttpPost]
         public async Task<IContactBook> Post(ContactBook contactBook, [FromServices] IContactBookRepository contactBookRepository)
